@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: 编译 R2S OpenWrt
+name: 编译 树莓派4B OpenWrt
 
 on:
   repository_dispatch:
