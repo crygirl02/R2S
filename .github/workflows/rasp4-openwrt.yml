@@ -54,7 +54,7 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
-    - name: 克隆源代码
+    - name: 下载源代码
       working-directory: /workdir
       run: |
         df -hT $PWD
@@ -68,10 +68,10 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
-    - name: 更新源
+    - name: 更新自定义源
       run: cd openwrt && ./scripts/feeds update -a
 
-    - name: 安装源
+    - name: 安装自定义源
       run: cd openwrt && ./scripts/feeds install -a
 
     - name: 加载自定义配置
@@ -89,7 +89,7 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-    - name: 下载包
+    - name: 下载依赖包
       id: package
       run: |
         cd openwrt
@@ -164,7 +164,7 @@ jobs:
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "::set-output name=status::success"
 
-    - name: 上载固件以发布
+    - name: 上传固件
       uses: softprops/action-gh-release@v1
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
